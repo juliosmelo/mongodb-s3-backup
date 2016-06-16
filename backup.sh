@@ -100,4 +100,4 @@ curl -X PUT \
 --header "Content-MD5: $CONTENT_MD5" \
 --header "Authorization: AWS $AWS_ACCESS_KEY:$SIGNATURE" \
 --upload-file $DIR/backup/$ARCHIVE_NAME \
-https://$S3_BUCKET.s3.amazonaws.com$ARCHIVE_NAME
+https://$S3_BUCKET.s3.amazonaws.com/$ARCHIVE_NAME
