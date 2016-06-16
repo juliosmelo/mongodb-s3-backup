@@ -90,7 +90,7 @@ rm -r $DIR/backup/$FILE_NAME
 HEADER_DATE=$(date -u "+%a, %d %b %Y %T %z")
 CONTENT_MD5=$(openssl dgst -md5 -binary $DIR/backup/$ARCHIVE_NAME | openssl enc -base64)
 CONTENT_TYPE="application/x-download"
-STRING_TO_SIGN="PUT\n$CONTENT_MD5\n$CONTENT_TYPE\n$HEADER_DATE\n/$S3_BUCKET/$ARCHIVE_NAME"
+STRING_TO_SIGN="PUT\n\n$CONTENT_TYPE\n$HEADER_DATE\n/$S3_BUCKET$ARCHIVE_NAME"
 SIGNATURE=$(echo -en $STRING_TO_SIGN | openssl sha1 -hmac $AWS_SECRET_KEY | base64)
 
 curl -X PUT \
