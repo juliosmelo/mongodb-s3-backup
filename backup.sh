@@ -86,4 +86,4 @@ tar -C $DIR/backup/ -zcvf $DIR/backup/$ARCHIVE_NAME $FILE_NAME/
 rm -r $DIR/backup/$FILE_NAME
 
 # Send the file to the backup drive or S3
-/usr/local/bin/s3cmd put $DIR/backup/$ARCHIVE_NAME s3://bkpdbgds/
+/usr/local/bin/s3cmd -k $AWS_ACCESS_KEY -s $AWS_SECRET_KEY put $DIR/backup/$ARCHIVE_NAME s3://bkpdbgds/
