@@ -86,18 +86,4 @@ tar -C $DIR/backup/ -zcvf $DIR/backup/$ARCHIVE_NAME $FILE_NAME/
 rm -r $DIR/backup/$FILE_NAME
 
 # Send the file to the backup drive or S3
-
-HEADER_DATE=$(date -u "+%a, %d %b %Y %T %z")
-CONTENT_MD5=$(openssl dgst -md5 -binary $DIR/backup/$ARCHIVE_NAME | openssl enc -base64)
-CONTENT_TYPE="application/x-download"
-STRING_TO_SIGN="PUT\n\n$CONTENT_TYPE\n$HEADER_DATE\n/$S3_BUCKET$ARCHIVE_NAME"
-SIGNATURE=$(echo -en $STRING_TO_SIGN | openssl sha1 -hmac $AWS_SECRET_KEY -binary | base64)
-
-curl -X PUT \
---header "Host: $S3_BUCKET.s3-$S3_REGION.amazonaws.com" \
---header "Date: $HEADER_DATE" \
---header "content-type: $CONTENT_TYPE" \
---header "Content-MD5: $CONTENT_MD5" \
---header "Authorization: AWS $AWS_ACCESS_KEY:$SIGNATURE" \
---upload-file $DIR/backup/$ARCHIVE_NAME \
-https://$S3_BUCKET.s3.amazonaws.com/$ARCHIVE_NAME
+/usr/local/bin/s3cmd put $DIR/backup/$ARCHIVE_NAME s3://bkpdbgds/
